@@ -1,5 +1,5 @@
 import hapi from '@hapi/hapi';
-import index from './handlers';
+import {hello, time} from './handlers/demo';
 
 function init() {
   const server = new hapi.Server({
@@ -14,7 +14,19 @@ function init() {
   server.route({
     method: 'GET',
     path: '/',
-    handler: index,
+    handler: (req, h) => h.redirect(process.env.APP_URL),
+  });
+  
+  server.route({
+    method: 'GET',
+    path: '/api/demo/time',
+    handler: time,
+  });
+  
+  server.route({
+    method: 'GET',
+    path: '/api/demo/hello',
+    handler: hello,
   });
 
   return server;

@@ -1,6 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Clock from './components/Clock';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           rel="noopener noreferrer"
         >
         </a>
+        <Clock interval={1000}></Clock>
       </header>
     </div>
   );
