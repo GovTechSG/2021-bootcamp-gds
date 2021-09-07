@@ -36,3 +36,15 @@
     transform: rotate(360deg);
   }
 }
+
+.has-background-gradient {
+  background: #6037b3;
+  background: linear-gradient(
+          30deg
+          , #6037b3 0%, #4675d3 100%);
+  color: white;
+}
+
+.has-background-gradient > :is(h1, h2, h3, h4, h5, h6), .has-background-gradient > .sgds-breadcrumb a, .has-background-gradient > .sgds-breadcrumb li+li:before {
+  color: white;
+}
