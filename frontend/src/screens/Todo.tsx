@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { v4 } from 'uuid';
 
 import {
@@ -21,18 +21,18 @@ export type TodoItemProps = {
 function TodoItem(props: TodoItemProps) {
   const [done, setDone] = useState(props.done);
 
-  async function updateTodoItem() {
+  const updateTodoItem = useCallback(async () => {
     await axios.put(`/api/todos/${props.id}`, {
       id: props.id,
       name: props.name,
       done: props.done,
     });
-  }
+  }, [props.name, props.id, props.done]);
 
   useEffect(() => {
     console.log(props.name, 'is marked as ', done ? 'done' : 'undone');
     updateTodoItem();
-  }, [props.name, done]);
+  }, [props.name, done, updateTodoItem]);
 
   return (<>
     <tr>
@@ -50,18 +50,24 @@ interface TodoProps {
 function Todo(props: TodoProps) {
   const [todoItems, setTodoItems] = useState<TodoItemProps[]>([]);
   const [newTodoName, setNewTodoName] = useState('');
-  useEffect(() => {
-    populateTodos();
+
+  const populateTodos = useCallback(async () => {
+    const result = await axios.get(`/api/todos`);
+    setTodoItems(result.data.todoList || []);
   }, []);
 
-  async function refreshTodos() {
-    const result = await axios.get(`/api/todos`);
-    return result.data.todoList || [];
-  }
+  const [isRefresh, setIsRefresh] = useState(false);
+  const onRefreshClicked = useCallback( async () => {
+    setIsRefresh(true);
+    setTimeout(async () => {
+      await populateTodos();
+      setIsRefresh(false);
+    }, 400);
+  }, [populateTodos]);
 
-  async function populateTodos() {
-    setTodoItems(await refreshTodos());
-  }
+  useEffect(() => {
+    onRefreshClicked();
+  }, [onRefreshClicked]);
 
   async function updateTodos() {
     const newTodo = {
@@ -90,12 +96,17 @@ function Todo(props: TodoProps) {
                 <label className="label" htmlFor="newTodoName">New todo: </label>
                 <div className='control'>
                   <Row>
-                    <Col is={11}>
+                    <Col is={10}>
                       <input className="input" id='newTodoName' type='text' value={newTodoName}
                         onChange={(event) => { setNewTodoName(event.currentTarget.value) }} />
                     </Col>
                     <Col>
                       <Button isPrimary isLoading={false}>Submit</Button>
+                    </Col>
+                    <Col>
+                      <Button type="button" isOutline isLoading={isRefresh} onClick={onRefreshClicked}>
+                        <span className='sgds-icon sgds-icon-refresh' />
+                      </Button>
                     </Col>
                   </Row>
                 </div>
