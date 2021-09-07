@@ -1,5 +1,6 @@
 import hapi from '@hapi/hapi';
 import {hello, time} from './handlers/demo';
+import { list, update } from './handlers/todos';
 
 function init() {
   const server = new hapi.Server({
@@ -27,6 +28,18 @@ function init() {
     method: 'GET',
     path: '/api/demo/hello',
     handler: hello,
+  });
+  
+  server.route({
+    method: 'PUT',
+    path: '/api/todos/{todoID}',
+    handler: update,
+  });
+  
+  server.route({
+    method: 'GET',
+    path: '/api/todos',
+    handler: list,
   });
 
   return server;

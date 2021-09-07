@@ -10,6 +10,7 @@ import {
 } from 'sgds-govtech-react';
 
 import Table from '../components/Table';
+import axios from 'axios';
 
 export type TodoItemProps = {
   id: string,
@@ -19,8 +20,18 @@ export type TodoItemProps = {
 
 function TodoItem(props: TodoItemProps) {
   const [done, setDone] = useState(props.done);
+
+  async function updateTodoItem() {
+    await axios.put(`/api/todos/${props.id}`, {
+      id: props.id,
+      name: props.name,
+      done: props.done,
+    });
+  }
+
   useEffect(() => {
     console.log(props.name, 'is marked as ', done ? 'done' : 'undone');
+    updateTodoItem();
   }, [props.name, done]);
 
   return (<>
@@ -39,15 +50,27 @@ interface TodoProps {
 function Todo(props: TodoProps) {
   const [todoItems, setTodoItems] = useState<TodoItemProps[]>([]);
   const [newTodoName, setNewTodoName] = useState('');
+  useEffect(() => {
+    populateTodos();
+  }, []);
 
-  function updateTodos() {
-    const newTodoItems = todoItems;
-    newTodoItems.push({
+  async function refreshTodos() {
+    const result = await axios.get(`/api/todos`);
+    return result.data.todoList || [];
+  }
+
+  async function populateTodos() {
+    setTodoItems(await refreshTodos());
+  }
+
+  async function updateTodos() {
+    const newTodo = {
       id: v4(),
       name: newTodoName,
       done: false,
-    });
-    setTodoItems(newTodoItems);
+    };
+    await axios.put(`/api/todos/${newTodo.id}`, newTodo);
+    await populateTodos();
     setNewTodoName('');
   }
 
