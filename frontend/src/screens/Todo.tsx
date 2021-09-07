@@ -25,9 +25,9 @@ function TodoItem(props: TodoItemProps) {
     await axios.put(`/api/todos/${props.id}`, {
       id: props.id,
       name: props.name,
-      done: props.done,
+      done: done,
     });
-  }, [props.name, props.id, props.done]);
+  }, [props.name, props.id, done]);
 
   useEffect(() => {
     console.log(props.name, 'is marked as ', done ? 'done' : 'undone');
