@@ -1,0 +1,248 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "TODO backend",
+    "description": "TODO list backend for GDS workshop",
+    "version": "1.0.0",
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "paths": {
+    "/api/todos": {
+      "post": {
+        "tags": ["todo"],
+        "summary": "Adds a new task",
+        "requestBody": {
+          "description": "Task that needs to be done",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string",
+                "example": "new task"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/todos"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Failed validation.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "Input task required"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Cannot.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "Backend failed"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["todo"],
+        "summary": "Gets all tasks",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/todos"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/todos/{id}": {
+      "get": {
+        "tags": ["todo"],
+        "summary": "Gets task by UUID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/todo"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Cannot.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "enum": ["UUID does not exist"],
+                  "example": "UUID does not exist"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["todo"],
+        "summary": "Updates an existing task",
+        "requestBody": {
+          "description": "Task that needs to be updated",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/todo"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Cannot.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "enum": ["UUID does not exist"],
+                  "example": "UUID does not exist"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Cannot.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "example": "Backend failed"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["todo"],
+        "summary": "Deletes task",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Cannot.",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string",
+                  "enum": ["UUID does not exist"],
+                  "example": "UUID does not exist"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/todos/random": {
+      "post": {
+        "tags": ["todo"],
+        "summary": "Returns a random todo",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/todo"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "todo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "done": {
+            "type": "boolean"
+          }
+        }
+      },
+      "todos": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/todo"
+        }
+      }
+    }
+  }
+}
