@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { v4 } from "uuid";
 import fetch from "node-fetch";
+import AbortController from "abort-controller";
 import {
   add,
   getAll,
@@ -10,7 +11,14 @@ import {
 } from "../datastores/TodoStore";
 
 export async function createTodo(req: Request, res: Response) {
-  const newTaskDescription = req.body["description"];
+  const body = req.body;
+  if (!("description" in body)) {
+    return res
+      .status(400)
+      .contentType("text/plain")
+      .send("Input task required");
+  }
+  const newTaskDescription = body["description"];
   const newTodo = {
     id: v4(),
     description: newTaskDescription,
@@ -28,8 +36,13 @@ export async function getAllTodos(_req: Request, res: Response) {
 
 export async function getTodoById(req: Request, res: Response) {
   const { id } = req.params;
-  const todo = getById(id);
-  return res.status(200).json(todo);
+  try {
+    const todo = getById(id);
+    return res.status(200).json(todo);
+  } catch (e) {
+    const error = e as Error;
+    return res.status(400).contentType("text/plain").send(error.message);
+  }
 }
 
 export async function updateTodoById(req: Request, res: Response) {
@@ -56,14 +69,24 @@ export async function deleteTodoById(req: Request, res: Response) {
 }
 
 export async function createRandomTodo(_req: Request, res: Response) {
-  const apiResponse = await fetch("https://www.boredapi.com/api/activity");
-  const responseJson = await apiResponse.json();
-  const randomActivity = responseJson["activity"];
-  const randomTodo = {
-    id: v4(),
-    description: randomActivity,
-    done: false,
-  };
-  add(randomTodo);
-  return res.status(200).json(randomTodo);
+  const abortController = new AbortController();
+  setTimeout(() => abortController.abort(), 5000);
+
+  try {
+    const apiResponse = await fetch("https://www.boredapi.com/api/activity", {
+      signal: abortController.signal,
+    });
+    const responseJson = await apiResponse.json();
+    const randomActivity = responseJson["activity"];
+    const randomTodo = {
+      id: v4(),
+      description: randomActivity,
+      done: false,
+    };
+    add(randomTodo);
+    return res.status(200).json(randomTodo);
+  } catch (e) {
+    // AbortError not exported in node-fetch V2
+    return res.status(500).contentType("text/plain").send("Request timed out");
+  }
 }
