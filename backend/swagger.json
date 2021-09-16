@@ -20,8 +20,15 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "string",
-                "example": "new task"
+                "type": "object",
+                "properties": {
+                  "description": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "description": "New task"
+                }
               }
             }
           }
@@ -40,21 +47,12 @@
           "400": {
             "description": "Failed validation.",
             "content": {
-              "text/plain": {
+              "application/json": {
                 "schema": {
-                  "type": "string",
-                  "example": "Input task required"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Cannot.",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string",
-                  "example": "Backend failed"
+                  "$ref": "#/components/schemas/error",
+                  "example": {
+                    "message": "Description of new task is required"
+                  }
                 }
               }
             }
@@ -106,11 +104,12 @@
           "400": {
             "description": "Cannot.",
             "content": {
-              "text/plain": {
+              "application/json": {
                 "schema": {
-                  "type": "string",
-                  "enum": ["UUID does not exist"],
-                  "example": "UUID does not exist"
+                  "$ref": "#/components/schemas/error",
+                  "example": {
+                    "message": "UUID does not exist"
+                  }
                 }
               }
             }
@@ -121,7 +120,7 @@
         "tags": ["todo"],
         "summary": "Updates an existing task",
         "requestBody": {
-          "description": "Task that needs to be updated",
+          "description": "Value of updated Task",
           "required": true,
           "content": {
             "application/json": {
@@ -148,22 +147,12 @@
           "400": {
             "description": "Cannot.",
             "content": {
-              "text/plain": {
+              "application/json": {
                 "schema": {
-                  "type": "string",
-                  "enum": ["UUID does not exist"],
-                  "example": "UUID does not exist"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Cannot.",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string",
-                  "example": "Backend failed"
+                  "$ref": "#/components/schemas/error",
+                  "example": {
+                    "message": "UUID does not exist"
+                  }
                 }
               }
             }
@@ -190,11 +179,12 @@
           "400": {
             "description": "Cannot.",
             "content": {
-              "text/plain": {
+              "application/json": {
                 "schema": {
-                  "type": "string",
-                  "enum": ["UUID does not exist"],
-                  "example": "UUID does not exist"
+                  "$ref": "#/components/schemas/error",
+                  "example": {
+                    "message": "UUID does not exist"
+                  }
                 }
               }
             }
@@ -213,6 +203,19 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/todo"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Cannot.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error",
+                  "example": {
+                    "message": "Request from external api timed out"
+                  }
                 }
               }
             }
@@ -241,6 +244,14 @@
         "type": "array",
         "items": {
           "$ref": "#/components/schemas/todo"
+        }
+      },
+      "error": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
         }
       }
     }

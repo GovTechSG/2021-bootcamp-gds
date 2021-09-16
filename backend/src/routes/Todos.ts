@@ -10,13 +10,14 @@ import {
   updateById,
 } from "../datastores/TodoStore";
 
+function messageResponse(res: Response, code: number, errorMessage: string) {
+  return res.status(code).json(`{ message: ${errorMessage} }`);
+}
+
 export async function createTodo(req: Request, res: Response) {
   const body = req.body;
   if (!("description" in body)) {
-    return res
-      .status(400)
-      .contentType("text/plain")
-      .send("Input task required");
+    return messageResponse(res, 400, "Input task required");
   }
   const newTaskDescription = body["description"];
   const newTodo = {
@@ -41,7 +42,7 @@ export async function getTodoById(req: Request, res: Response) {
     return res.status(200).json(todo);
   } catch (e) {
     const error = e as Error;
-    return res.status(400).contentType("text/plain").send(error.message);
+    return messageResponse(res, 400, error.message);
   }
 }
 
@@ -50,10 +51,10 @@ export async function updateTodoById(req: Request, res: Response) {
   const updatedTodo = req.body;
   try {
     updateById(id, updatedTodo);
-    return res.status(200).contentType("text/plain").send("Success");
+    return res.sendStatus(200);
   } catch (e) {
     const error = e as Error;
-    return res.status(400).contentType("text/plain").send(error.message);
+    return messageResponse(res, 400, error.message);
   }
 }
 
@@ -61,10 +62,10 @@ export async function deleteTodoById(req: Request, res: Response) {
   const { id } = req.params;
   try {
     deleteById(id);
-    return res.status(200).contentType("text/plain").send("Success");
+    return res.sendStatus(200);
   } catch (e) {
     const error = e as Error;
-    return res.status(400).contentType("text/plain").send(error.message);
+    return messageResponse(res, 400, error.message);
   }
 }
 
@@ -87,6 +88,6 @@ export async function createRandomTodo(_req: Request, res: Response) {
     return res.status(200).json(randomTodo);
   } catch (e) {
     // AbortError not exported in node-fetch V2
-    return res.status(500).contentType("text/plain").send("Request timed out");
+    return messageResponse(res, 500, "Request from external api timed out");
   }
 }
