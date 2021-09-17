@@ -5,18 +5,13 @@ import swaggerUi from "swagger-ui-express";
 import swaggerJson from "../swagger.json";
 
 const app = express();
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 9000;
 
 app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerJson));
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
-
-// TODO: Use environment env variable
 app.use(express.json());
 app.use("/api", TodoRouter);
 
-app.listen(port, () => {
+export default app.listen(port, () => {
   console.log(`Backend app listening at http://localhost:${port}`);
 });

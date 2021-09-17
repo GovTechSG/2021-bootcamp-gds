@@ -13,5 +13,5 @@
     "esModuleInterop": true,
     "baseUrl": "src"
   },
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts", "tests/todos.test.ts"]
 }

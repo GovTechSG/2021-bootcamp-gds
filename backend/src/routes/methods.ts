@@ -7,7 +7,7 @@ export const todoList: { [id: string]: Todo } = {};
 export async function createTodo(req: Request, res: Response) {
   const body = req.body;
   if (!("description" in body)) {
-    return res.status(400).json("Input task required");
+    return res.status(400).json({ message: "Input task required"});
   }
   const newTaskDescription = body.description;
   const newTodo = {
