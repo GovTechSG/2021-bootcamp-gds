@@ -24,12 +24,13 @@ export async function getAllTodos(_req: Request, res: Response) {
   return res.status(200).json(todoList);
 }
 
-export async function getTodoById(req: Request, res: Response) {
+export async function deleteTodoById(req: Request, res: Response) {
   const { id } = req.params;
   if (id in todoList) {
-    return res.status(200).json(todoList[id]);
+      delete todoList[id];
   } else {
-    return res.status(400).json({ message: "UUID does not exist" });
+      return res.status(400).json({ message: "UUID does not exist" });
   }
 }
+
 
