@@ -4,9 +4,11 @@ import { todoList } from "./methods";
 export async function updateTodoById(req: Request, res: Response) {
     const { id } = req.params;
     const updatedTodo = req.body;
-    if (id in todoList) {
+    if (updatedTodo.id !== id) {
+      return res.status(409).json({message: "UUID in path and body do not match"});
+    } else if (id in todoList) {
         todoList[id] = updatedTodo;
-        return res.sendStatus(200);
+        return res.status(200).send();
     } else {
         return res.status(400).json({ message: "UUID does not exist" });
     }

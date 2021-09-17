@@ -1,5 +1,5 @@
 import supertest from "supertest";
-import server from "../App";
+import server from "../src/App";
 
 const supertestRequest = supertest(server);
 
@@ -81,11 +81,10 @@ describe("PUT /todos/{id}", () => {
       .send({ description: "test api" })
       .set("Accept", "application/json");
     const todoToUpdate = postRes.body;
-    const idToUpdate = postRes.body["id"];
-    todoToUpdate["done"] = true;
+    todoToUpdate.done = true;
 
     const res = await supertestRequest
-      .put(`/api/todos/${idToUpdate}`)
+      .put(`/api/todos/${todoToUpdate.id}`)
       .send(todoToUpdate)
       .set("Accept", "application/json");
     expect(res.status).toEqual(200);
@@ -123,7 +122,7 @@ describe("PUT /todos/{id}", () => {
       .put(`/api/todos/${idToUpdate}`)
       .send(todoToUpdate)
       .set("Accept", "application/json");
-    expect(res.status).toEqual(400);
+    expect(res.status).toEqual(409);
     expect(res.body["message"]).toEqual(
       expect.stringContaining("UUID in path and body do not match")
     );

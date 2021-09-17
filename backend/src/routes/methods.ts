@@ -28,7 +28,7 @@ export async function deleteTodoById(req: Request, res: Response) {
   const { id } = req.params;
   if (id in todoList) {
       delete todoList[id];
-      return res.status(200);
+      return res.status(200).send();
   } else {
       return res.status(400).json({ message: "UUID does not exist" });
   }
