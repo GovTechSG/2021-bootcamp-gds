@@ -1,8 +1,8 @@
 import express from "express";
 
-import TodoRouter from "./src/routes";
+import TodoRouter from "./routes";
 import swaggerUi from "swagger-ui-express";
-import swaggerJson from "./swagger.json";
+import swaggerJson from "../swagger.json";
 
 const app = express();
 const port = process.env.PORT || 3001;

@@ -11,7 +11,7 @@ export async function updateTodoById(req: Request, res: Response) {
         return res.status(400).json({ message: "UUID does not exist" });
     }
 }
-  
+
 export async function getTodoById(req: Request, res: Response) {
     const { id } = req.params;
     if (id in todoList) {
