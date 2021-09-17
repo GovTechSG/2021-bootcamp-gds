@@ -10,14 +10,16 @@ import {
   updateById,
 } from "../datastores/TodoStore";
 
-function messageResponse(res: Response, code: number, errorMessage: string) {
-  return res.status(code).json(`{ message: ${errorMessage} }`);
+// messageJson("example") returns an object { message: "example" }
+function messageJson(message: string) {
+  return { message };
 }
 
 export async function createTodo(req: Request, res: Response) {
   const body = req.body;
   if (!("description" in body)) {
-    return messageResponse(res, 400, "Input task required");
+    const errorMessage = messageJson("Input task required");
+    return res.status(400).json(errorMessage);
   }
   const newTaskDescription = body["description"];
   const newTodo = {
@@ -42,19 +44,25 @@ export async function getTodoById(req: Request, res: Response) {
     return res.status(200).json(todo);
   } catch (e) {
     const error = e as Error;
-    return messageResponse(res, 400, error.message);
+    const errorMessage = messageJson(error.message);
+    return res.status(400).json(errorMessage);
   }
 }
 
 export async function updateTodoById(req: Request, res: Response) {
   const { id } = req.params;
   const updatedTodo = req.body;
+  if (!(id === updatedTodo.id)) {
+    const errorMessage = messageJson("UUID in path and body do not match");
+    return res.status(400).json(errorMessage);
+  }
   try {
     updateById(id, updatedTodo);
     return res.sendStatus(200);
   } catch (e) {
     const error = e as Error;
-    return messageResponse(res, 400, error.message);
+    const errorMessage = messageJson(error.message);
+    return res.status(400).json(errorMessage);
   }
 }
 
@@ -65,7 +73,8 @@ export async function deleteTodoById(req: Request, res: Response) {
     return res.sendStatus(200);
   } catch (e) {
     const error = e as Error;
-    return messageResponse(res, 400, error.message);
+    const errorMessage = messageJson(error.message);
+    return res.status(400).json(errorMessage);
   }
 }
 
@@ -88,6 +97,7 @@ export async function createRandomTodo(_req: Request, res: Response) {
     return res.status(200).json(randomTodo);
   } catch (e) {
     // AbortError not exported in node-fetch V2
-    return messageResponse(res, 500, "Request from external api timed out");
+    const errorMessage = messageJson("Request from external api timed out");
+    return res.status(500).json(errorMessage);
   }
 }
