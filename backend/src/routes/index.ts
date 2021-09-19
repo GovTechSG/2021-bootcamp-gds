@@ -3,8 +3,9 @@ import {
   createTodo,
   getAllTodos,
   deleteTodoById,
+  getTodoById, 
+  updateTodoById
 } from "./methods";
-import { getTodoById, updateTodoById } from "./newMethods";
 
 const todoRouter = Router();
 todoRouter.post("/todos", createTodo);
