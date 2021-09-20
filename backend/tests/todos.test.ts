@@ -193,6 +193,18 @@ checkpointTwo("POST /todos/random", () => {
   });
 });
 
+describe("GET /demo/time", () => {
+  it("should return the current time", async () => {
+    const res = await supertestRequest
+      .get("/api/demo/time")
+      .send()
+      .set("Accept", "application/json");
+    expect(res.status).toEqual(200);
+    expect(res.type).toEqual(expect.stringContaining("json"));
+    expect(res.body).toStrictEqual({ time: new Date().toTimeString() });
+  });
+});
+
 // Stop server after all tests are completed
 afterAll(async () => {
   await server.close();
