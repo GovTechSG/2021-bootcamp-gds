@@ -49,7 +49,9 @@ describe("GET /todos", () => {
   });
 });
 
-describe("GET /todos/{id}", () => {
+const checkpointOne =
+  parseInt(process.env.CHECKPOINT!) > 0 ? describe : describe.skip;
+checkpointOne("GET /todos/{id}", () => {
   it("should return just one Todo when a valid id is OK", async () => {
     const postRes = await supertestRequest
       .post("/api/todos")
@@ -74,7 +76,7 @@ describe("GET /todos/{id}", () => {
   });
 });
 
-describe("PUT /todos/{id}", () => {
+checkpointOne("PUT /todos/{id}", () => {
   it("should return success when id is OK", async () => {
     const postRes = await supertestRequest
       .post("/api/todos")
@@ -108,25 +110,29 @@ describe("PUT /todos/{id}", () => {
     );
   });
 
-  it("should return failure when id in path does not match id in body", async () => {
-    const postRes = await supertestRequest
-      .post("/api/todos")
-      .send({ description: "test api" })
-      .set("Accept", "application/json");
-    const todoToUpdate = postRes.body;
-    const idToUpdate = postRes.body["id"];
-    todoToUpdate["id"] = "I am hacker lols xD";
-    todoToUpdate["done"] = true;
+  const extra = parseInt(process.env.CHECKPOINT!) > 2 ? it : it.skip;
+  extra(
+    "should return failure when id in path does not match id in body",
+    async () => {
+      const postRes = await supertestRequest
+        .post("/api/todos")
+        .send({ description: "test api" })
+        .set("Accept", "application/json");
+      const todoToUpdate = postRes.body;
+      const idToUpdate = postRes.body["id"];
+      todoToUpdate["id"] = "I am hacker lols xD";
+      todoToUpdate["done"] = true;
 
-    const res = await supertestRequest
-      .put(`/api/todos/${idToUpdate}`)
-      .send(todoToUpdate)
-      .set("Accept", "application/json");
-    expect(res.status).toEqual(409);
-    expect(res.body["message"]).toEqual(
-      expect.stringContaining("UUID in path and body do not match")
-    );
-  });
+      const res = await supertestRequest
+        .put(`/api/todos/${idToUpdate}`)
+        .send(todoToUpdate)
+        .set("Accept", "application/json");
+      expect(res.status).toEqual(400);
+      expect(res.body["message"]).toEqual(
+        expect.stringContaining("UUID in path and body do not match")
+      );
+    }
+  );
 });
 
 describe("DELETE /todos{id}", () => {
@@ -154,9 +160,28 @@ describe("DELETE /todos{id}", () => {
       expect.stringContaining("UUID does not exist")
     );
   });
+
+  const extra = parseInt(process.env.CHECKPOINT!) > 2 ? it : it.skip;
+  extra("should return failure when todo is protected", async () => {
+    const postRes = await supertestRequest
+      .post("/api/todos")
+      .send({ description: "Improve backend" })
+      .set("Accept", "application/json");
+    const idToDelete = postRes.body["id"];
+
+    const res = await supertestRequest
+      .delete(`/api/todos/${idToDelete}`)
+      .set("Accept", "application/json");
+    expect(res.status).toEqual(400);
+    expect(res.body["message"]).toEqual(
+      expect.stringContaining("This todo cannot be deleted")
+    );
+  });
 });
 
-describe("POST /todos/random", () => {
+const checkpointTwo =
+  parseInt(process.env.CHECKPOINT!) > 1 ? describe : describe.skip;
+checkpointTwo("POST /todos/random", () => {
   it("should return a random Todo", async () => {
     const res = await supertestRequest
       .post("/api/todos/random")
