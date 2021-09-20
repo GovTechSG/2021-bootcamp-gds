@@ -18,10 +18,10 @@ Lets start by adding a input checkbox
 ```
 This checkbox should be placed in line with the item name display for easier reference
 
-```tsx
+```diff
 return (<>
     <tr>
-      <td>/* Insert checkbox here */<td/>
++      <td><input type="checkbox"></input><td/>
       <td width={'100%'}>{props.name}</td>
     </tr>
   </>
@@ -62,8 +62,8 @@ Add the above to the checkbox input you created. This would ensure that the chec
 
 You should be seeing a similar block of code as below
 
-```tsx
- <td><input type="checkbox" /* Insert code here */></input></td>
+```diff
++ <td><input type="checkbox" checked={done} onChange={(event) => setDone(event.currentTarget.checked)}></input></td>
 ```
 
 ## Persist the checkbox state
@@ -76,9 +76,9 @@ First we will need to track changes made for the checkbox for each item so that 
 
 To have visibility on the behaviour lets add `console.log` to display item name and done state variable.
 
-```tsx
+```diff
  useEffect(() => {
-    /* Insert code here */
++    console.log(props.name, 'is marked as ', done ? 'done' : 'undone');
   }, [props.name, done]);
 ```
 
@@ -90,11 +90,11 @@ To view the method being triggered, inspect and view console, you will see that 
 
 We have created the trigger point using `useEffect` to call and update the back end. Now we will just need ot link the backend api call with `useEffect`
 
-```tsx
+```diff
 useEffect(() => {
-    /* Console log code */
-    /* Insert code here */
-  }, [props.name, done, /* Insert code here */]);
++    console.log(props.name, 'is marked as ', done ? 'done' : 'undone');
++    updateTodoItem();
++  }, [props.name, done, updateTodoItem]);
 ```
 
 By adding `updateTodoItem`, `useEffect` will always call for `updateTodoItem` method every time it detects a change in the `done` state variable.
@@ -102,4 +102,4 @@ By adding `updateTodoItem`, `useEffect` will always call for `updateTodoItem` me
 Congratulations, now your state is persisted and refreshing will no longer pose a problem.
 
 
-[Back to Exercises ](./README.md) | [Solution](../solutions/12-DoneWhenISaySo.md) | [Next Exercise >](./13-StretchGoals.md)
+[Back to Exercises ](./README.md) | [Exercise](../exercises/12-DoneWhenISaySo.md) | [Next Exercise >](./13-StretchGoals.md)
