@@ -15,7 +15,7 @@ jobs:
           cd frontend
           npm install --yes
           npm install
-          npm run build
+          REACT_APP_API_ENDPOINT='${TF_ENDPOINT_INPUT}' npm run build
 
       - name: Upload Frontend build as artifact
         uses: actions/upload-artifact@v2
