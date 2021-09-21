@@ -13,9 +13,9 @@ updates:
     commit-message:
       prefix: "github-actions"
       include: "scope"
-  # Maintain dependencies for npm
+  # Maintain dependencies for npm (frontend)
   - package-ecosystem: "npm"
-    directory: "/"
+    directory: "/frontend"
     schedule:
       interval: "daily"
     # Raise pull requests for version updates
@@ -24,5 +24,18 @@ updates:
     # Prefix all commit messages with "npm"
     # include a list of updated dependencies
     commit-message:
-      prefix: "npm"
+      prefix: "npm-frontend"
+      include: "scope"
+  # Maintain dependencies for npm (backend)
+  - package-ecosystem: "npm"
+    directory: "/backend"
+    schedule:
+      interval: "daily"
+    # Raise pull requests for version updates
+    # to pip against the `main` branch
+    target-branch: "main"
+    # Prefix all commit messages with "npm"
+    # include a list of updated dependencies
+    commit-message:
+      prefix: "npm-backend"
       include: "scope"
