@@ -127,7 +127,7 @@ checkpointOne("PUT /todos/{id}", () => {
         .put(`/api/todos/${idToUpdate}`)
         .send(todoToUpdate)
         .set("Accept", "application/json");
-      expect(res.status).toEqual(400);
+      expect(res.status).toEqual(409);
       expect(res.body["message"]).toEqual(
         expect.stringContaining("UUID in path and body do not match")
       );
@@ -172,7 +172,7 @@ describe("DELETE /todos{id}", () => {
     const res = await supertestRequest
       .delete(`/api/todos/${idToDelete}`)
       .set("Accept", "application/json");
-    expect(res.status).toEqual(400);
+    expect(res.status).toEqual(405);
     expect(res.body["message"]).toEqual(
       expect.stringContaining("This todo cannot be deleted")
     );

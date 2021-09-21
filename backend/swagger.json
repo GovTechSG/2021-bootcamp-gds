@@ -156,6 +156,19 @@
                 }
               }
             }
+          },
+          "409": {
+            "description": "Conflict with server",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error",
+                  "example": {
+                    "message": "UUID in path and body do not match"
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -184,6 +197,19 @@
                   "$ref": "#/components/schemas/error",
                   "example": {
                     "message": "UUID does not exist"
+                  }
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Protected resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error",
+                  "example": {
+                    "message": "This todo cannot be deleted"
                   }
                 }
               }
