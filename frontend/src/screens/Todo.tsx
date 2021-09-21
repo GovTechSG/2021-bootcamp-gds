@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
 import { v4 } from 'uuid';
 
@@ -9,8 +10,8 @@ import {
   Button,
 } from 'sgds-govtech-react';
 
+import CONFIG from '../config';
 import Table from '../components/Table';
-import axios from 'axios';
 
 export type TodoItemProps = {
   id: string,
@@ -22,12 +23,12 @@ function TodoItem(props: TodoItemProps) {
   const [done, setDone] = useState(props.done);
 
   const updateTodoItem = useCallback(async () => {
-    await axios.put(`/api/todos/${props.id}`, {
+    await axios.put(`${CONFIG.API_ENDPOINT}/todos/${props.id}`, {
       id: props.id,
       name: props.name,
-      done: props.done,
+      done: done,
     });
-  }, [props.name, props.id, props.done]);
+  }, [props.name, props.id, done]);
 
   useEffect(() => {
     console.log(props.name, 'is marked as ', done ? 'done' : 'undone');
@@ -52,7 +53,7 @@ function Todo(props: TodoProps) {
   const [newTodoName, setNewTodoName] = useState('');
 
   const populateTodos = useCallback(async () => {
-    const result = await axios.get(`/api/todos`);
+    const result = await axios.get(`${CONFIG.API_ENDPOINT}/todos`);
     setTodoItems(result.data.todoList || []);
   }, []);
 
@@ -75,7 +76,7 @@ function Todo(props: TodoProps) {
       name: newTodoName,
       done: false,
     };
-    await axios.put(`/api/todos/${newTodo.id}`, newTodo);
+    await axios.put(`${CONFIG.API_ENDPOINT}/todos/${newTodo.id}`, newTodo);
     await populateTodos();
     setNewTodoName('');
   }
