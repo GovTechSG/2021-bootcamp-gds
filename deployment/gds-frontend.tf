@@ -40,14 +40,30 @@ locals {
   }
 }
 
-// React Frontend
+// React Frontend Non-JavaScript
 resource "aws_s3_bucket_object" "react_frontend_build" {
-  for_each = fileset("../frontend/build/", "**")
+  for_each = {
+    for file in fileset("../frontend/build/", "**") : file => file
+    if substr(file, -3, -1) != ".js"
+  }
   bucket = aws_s3_bucket.react_frontend.bucket
   key    = each.value
   source = "../frontend/build/${each.value}"
   etag   = filemd5("../frontend/build/${each.value}")
   content_type = lookup(local.content_type_ext_mapping, element(split(".", each.value), length(split(".", each.value)) - 1), "text/html")
+}
+
+// React Frontend JavaScript
+resource "aws_s3_bucket_object" "react_frontend_build_js" {
+  for_each = {
+    for file in fileset("../frontend/build/", "**") : file => file
+    if substr(file, -3, -1) == ".js"
+  }
+  bucket  = aws_s3_bucket.react_frontend.bucket
+  key     = each.value
+  content = replace(file("../frontend/build/${each.value}"), "$${TF_ENDPOINT_INPUT}", "http://replaceme.com/api")
+  etag    = filemd5("../frontend/build/${each.value}")
+  content_type = "text/html"
 }
 
 // Frontend URL
