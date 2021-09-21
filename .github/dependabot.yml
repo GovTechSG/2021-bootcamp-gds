@@ -1,0 +1,28 @@
+# https://docs.github.com/en/code-security/supply-chain-security/keeping-your-dependencies-updated-automatically/configuration-options-for-dependency-updates
+version: 2
+updates:
+  # Maintain dependencies for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    # Raise pull requests for version updates
+    # to pip against the `main` branch
+    target-branch: "main"
+    # Prefix all commit messages with "github-actions"
+    commit-message:
+      prefix: "github-actions"
+      include: "scope"
+  # Maintain dependencies for npm
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    # Raise pull requests for version updates
+    # to pip against the `main` branch
+    target-branch: "main"
+    # Prefix all commit messages with "npm"
+    # include a list of updated dependencies
+    commit-message:
+      prefix: "npm"
+      include: "scope"
