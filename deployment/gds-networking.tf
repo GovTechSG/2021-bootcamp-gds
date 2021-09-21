@@ -89,3 +89,44 @@ resource "aws_route_table_association" "route_public_az2_association" {
   subnet_id = aws_subnet.public_subnet_2.id
   route_table_id = aws_route_table.route_table_public_az.id
 }
+
+/******************************************************************
+  CREATION of Security Groups
+******************************************************************/
+/*
+Allow All Security Group
+*/
+resource "aws_security_group" "allow_all" {
+  name        = "allow_all"
+  description = "Super Permissive Security Group"
+  vpc_id      = aws_vpc.gds_vpc.id
+
+  tags = {
+    Name    = "gds_bad_security_group"
+  }
+}
+
+
+resource "aws_security_group_rule" "allow_all_ingress" {
+  security_group_id = aws_security_group.allow_all.id
+  type              = "ingress"
+  from_port         = 0
+  to_port           = 0
+  protocol          = "all"
+  cidr_blocks = [
+    "116.89.41.13/32"
+  ]
+  description = "Allows all ingress"
+}
+
+resource "aws_security_group_rule" "allow_all_egress" {
+  security_group_id = aws_security_group.allow_all.id
+  type              = "egress"
+  from_port         = 0
+  to_port           = 0
+  protocol          = "all"
+  cidr_blocks = [
+    "0.0.0.0/0"
+  ]
+  description = "Allows all egress"
+}
