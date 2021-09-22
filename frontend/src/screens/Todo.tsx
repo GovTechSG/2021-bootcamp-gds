@@ -20,24 +20,17 @@ export type TodoItemProps = {
 };
 
 function TodoItem(props: TodoItemProps) {
-  const [done, setDone] = useState(props.done);
-
   const updateTodoItem = useCallback(async () => {
     await axios.put(`${CONFIG.API_ENDPOINT}/todos/${props.id}`, {
       id: props.id,
       name: props.name,
-      done: done,
+      done: false,
     });
-  }, [props.name, props.id, done]);
-
-  useEffect(() => {
-    console.log(props.name, 'is marked as ', done ? 'done' : 'undone');
-    updateTodoItem();
-  }, [props.name, done, updateTodoItem]);
+  }, [props.name, props.id]);
 
   return (<>
     <tr>
-      <td><input type="checkbox" checked={done} onChange={(event) => setDone(event.currentTarget.checked)}></input></td>
+      <td></td>
       <td width={'100%'}>{props.name}</td>
     </tr>
   </>
