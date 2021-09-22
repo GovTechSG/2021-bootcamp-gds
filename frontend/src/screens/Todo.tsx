@@ -30,6 +30,10 @@ function TodoItem(props: TodoItemProps) {
     });
   }, [props.name, props.id]);
 
+  useEffect(() => {
+    console.log(props.name, 'is marked as ', done ? 'done' : 'undone');
+  }, [props.name, done]);
+
   return (<>
     <tr>
       <td><input type="checkbox" checked={done} onChange={(event) => setDone(event.currentTarget.checked)}></input></td>
