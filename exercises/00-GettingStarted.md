@@ -1,6 +1,6 @@
 # Getting Started
 
-[< Back to Exercises](../exercises/README.md)
+[Back to Exercises](../exercises/README.md)
 
 ## Launching the development environment
 Let's get things up and running!
@@ -31,4 +31,4 @@ Help is always just a click away (at the bottom of the page).
 
 ---
 
-[< Back to Exercises](../exercises/README.md) | [Solution](../solutions/01-GettingStarted.md)
+[Back to Exercises](../exercises/README.md) | [Solution](../solutions/00-GettingStarted.md)
