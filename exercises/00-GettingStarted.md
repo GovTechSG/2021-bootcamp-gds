@@ -3,6 +3,9 @@
 [Back to Exercises](../exercises/README.md)
 
 ## Launching the development environment
+
+> 💡 Prerequisite: Do ensure you have [Docker](https://www.docker.com/get-started) installed on your local machine!
+
 Let's get things up and running!
 
 ```console
