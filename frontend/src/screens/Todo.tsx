@@ -35,7 +35,7 @@ function TodoItem(props: TodoItemProps) {
 
   return (<>
     <tr>
-      <td>{/* insert checkbox here */}</td>
+      <td>{<input type="checkbox"></input>}</td>
       <td width={'100%'}>{props.description}</td>
     </tr>
   </>
