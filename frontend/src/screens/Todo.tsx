@@ -19,7 +19,7 @@ export type TodoItemProps = {
 };
 
 function TodoItem(props: TodoItemProps) {
-  /* create state here */
+  const [done, setDone] = useState(props.done);
 
   const updateTodoItem = useCallback(async () => {
     await axios.put(`${CONFIG.API_ENDPOINT}/todos/${props.id}`, {
