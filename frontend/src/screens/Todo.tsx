@@ -97,7 +97,9 @@ function Todo(props: TodoProps) {
                       <Button isPrimary isLoading={false}>Submit</Button>
                     </Col>
                     <Col>
-                      {/* insert button here */}
+                      <Button type="button" isOutline>
+                        <span className='sgds-icon sgds-icon-refresh' />
+                      </Button>
                     </Col>
                   </Row>
                 </div>
