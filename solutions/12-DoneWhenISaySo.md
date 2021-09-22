@@ -21,7 +21,7 @@ This checkbox should be placed in line with the item name display for easier ref
 ```diff
 return (<>
     <tr>
-+      <td><input type="checkbox"></input><td/>
++      <td><input type="checkbox"></input></td>
       <td width={'100%'}>{props.name}</td>
     </tr>
   </>
@@ -98,6 +98,18 @@ useEffect(() => {
 ```
 
 By adding `updateTodoItem`, `useEffect` will always call for `updateTodoItem` method every time it detects a change in the `done` state variable.
+
+Now to update `updateTodoItem` to use the done state variable
+
+```diff
+const updateTodoItem = useCallback(async () => {
+    await axios.put(`/api/todos/${props.id}`, {
+      id: props.id,
+      name: props.name,
++      done: done,
+    });
++  }, [props.name, props.id, done]);
+```
 
 Congratulations, now your state is persisted and refreshing will no longer pose a problem.
 
