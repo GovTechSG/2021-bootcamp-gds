@@ -26,13 +26,14 @@ function TodoItem(props: TodoItemProps) {
     await axios.put(`${CONFIG.API_ENDPOINT}/todos/${props.id}`, {
       id: props.id,
       name: props.name,
-      done: false,
+      done: done,
     });
-  }, [props.name, props.id]);
+  }, [props.name, props.id, done]);
 
   useEffect(() => {
     console.log(props.name, 'is marked as ', done ? 'done' : 'undone');
-  }, [props.name, done]);
+    updateTodoItem();
+  }, [props.name, done, updateTodoItem]);
 
   return (<>
     <tr>
