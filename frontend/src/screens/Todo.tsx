@@ -91,11 +91,11 @@ function Todo(props: TodoProps) {
               event?.preventDefault();
             }}>
               <div className='field'>
-                <label className="label" htmlFor="newTodoName">New todo: </label>
+                <label className="label" htmlFor="newTodoDescription">New todo: </label>
                 <div className='control'>
                   <Row>
                     <Col is={10}>
-                      <input className="input" id='newTodoName' type='text' value={newTodoDescription}
+                      <input className="input" id='newTodoDescription' type='text' value={newTodoDescription}
                         onChange={(event) => { setNewTodoDescription(event.currentTarget.value) }} />
                     </Col>
                     <Col>
