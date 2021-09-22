@@ -1,6 +1,8 @@
 import React, { useEffect, useCallback } from 'react';
 import axios, { AxiosError } from 'axios';
 
+import CONFIG from '../config';
+
 interface ClockProps {
   interval?: number;
 };
@@ -15,7 +17,7 @@ function Clock(props: ClockProps) {
    */
   const updateClock = useCallback(async () => {
     try {
-      const response = await axios.get('/api/demo/time');
+      const response = await axios.get(`${CONFIG.API_ENDPOINT}/demo/time`);
       setTime(response.data);
     } catch (error) {
       setTime(`Error connecting to backend: ${(error as AxiosError).message}`)
