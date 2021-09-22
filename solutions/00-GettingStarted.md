@@ -1,6 +1,6 @@
 # Getting Started
 
-[< Back to Exercises](../exercises/README.md) | [Example](../exercises/01-GettingStarted.md)
+[Back to Exercises](../exercises/README.md) | [Example](../exercises/00-GettingStarted.md)
 
 ## Launching the development environment
 Let's get things up and running!
@@ -101,4 +101,4 @@ Removing network 2021-bootcamp-gds_default
 
 ---
 
-[< Back to Exercises](../exercises/README.md) | [Example](../exercises/01-GettingStarted.md)
+[Back to Exercises](../exercises/README.md) | [Example](../exercises/00-GettingStarted.md)
