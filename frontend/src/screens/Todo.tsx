@@ -25,13 +25,14 @@ function TodoItem(props: TodoItemProps) {
     await axios.put(`${CONFIG.API_ENDPOINT}/todos/${props.id}`, {
       id: props.id,
       description: props.description,
-      /* persist the state of the todo item */
+      done: done,
     });
-  }, [props.description, props.id]);
+  }, [props.description, props.id, done]);
 
   useEffect(() => {
     /* mark the todo when done (as a dependency) changes */
     console.log(props.description, 'is marked as ', done ? 'done' : 'undone');
+    updateTodoItem();
   }, [props.description, done, updateTodoItem]);
 
   return (<>
