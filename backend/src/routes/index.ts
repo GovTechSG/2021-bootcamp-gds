@@ -4,7 +4,8 @@ import {
   getAllTodos,
   deleteTodoById,
   getTodoById, 
-  updateTodoById
+  updateTodoById,
+  createRandomTodo
 } from "./methods";
 
 const todoRouter = Router();
@@ -13,5 +14,6 @@ todoRouter.get("/todos", getAllTodos);
 todoRouter.get("/todos/:id", getTodoById);
 todoRouter.put("/todos/:id", updateTodoById);
 todoRouter.delete("/todos/:id", deleteTodoById);
+todoRouter.post("/todos/random", createRandomTodo);
 
 export default todoRouter;

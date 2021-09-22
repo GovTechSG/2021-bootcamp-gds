@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import { v4 } from "uuid";
 import { Todo } from "types/Todo";
+import fetch from "node-fetch";
+import AbortController from "abort-controller";
 
 // This is not exported, which means only methods exposed in this file will access it.
 const todoList: { [id: string]: Todo } = {};
@@ -72,5 +74,28 @@ export async function getTodoById(req: Request, res: Response) {
     return res.status(200).json(todoList[id]);
   } else {
     return badRequest(res, "UUID does not exist");
+  }
+}
+
+export async function createRandomTodo(_req: Request, res: Response) {
+  const abortController = new AbortController();
+  setTimeout(() => abortController.abort(), 5000);
+
+  try {
+    const responseJson = await fetch("https://www.boredapi.com/api/activity", {
+      signal: abortController.signal,
+    }).then(apiResponse => apiResponse.json());
+    const randomActivity = responseJson["activity"];
+    const randomTodo = {
+      id: v4(),
+      description: randomActivity,
+      done: false,
+    };
+    todoList[randomTodo.id] = randomTodo;
+    return res.status(200).json(randomTodo);
+  } catch (e) {
+    // AbortError not exported in node-fetch V2
+    const errorMessage = messageJson("Request from external api timed out");
+    return res.status(500).json(errorMessage);
   }
 }
