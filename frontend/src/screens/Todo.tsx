@@ -35,7 +35,7 @@ function TodoItem(props: TodoItemProps) {
 
   return (<>
     <tr>
-      <td>{<input type="checkbox"></input>}</td>
+      <td>{<input type="checkbox" checked={done} onChange={(event) => setDone(event.currentTarget.checked)}></input>}</td>
       <td width={'100%'}>{props.description}</td>
     </tr>
   </>
