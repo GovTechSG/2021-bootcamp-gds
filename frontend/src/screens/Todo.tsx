@@ -30,7 +30,7 @@ function TodoItem(props: TodoItemProps) {
 
   return (<>
     <tr>
-      <td></td>
+      <td><input type="checkbox"></input></td>
       <td width={'100%'}>{props.name}</td>
     </tr>
   </>
