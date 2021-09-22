@@ -20,6 +20,8 @@ export type TodoItemProps = {
 };
 
 function TodoItem(props: TodoItemProps) {
+  const [done, setDone] = useState(props.done);
+
   const updateTodoItem = useCallback(async () => {
     await axios.put(`${CONFIG.API_ENDPOINT}/todos/${props.id}`, {
       id: props.id,
@@ -30,7 +32,7 @@ function TodoItem(props: TodoItemProps) {
 
   return (<>
     <tr>
-      <td><input type="checkbox"></input></td>
+      <td><input type="checkbox" checked={done} onChange={(event) => setDone(event.currentTarget.checked)}></input></td>
       <td width={'100%'}>{props.name}</td>
     </tr>
   </>
