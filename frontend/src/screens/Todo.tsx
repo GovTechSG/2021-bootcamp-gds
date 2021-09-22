@@ -31,7 +31,8 @@ function TodoItem(props: TodoItemProps) {
 
   useEffect(() => {
     /* mark the todo when done (as a dependency) changes */
-  }, [props.description, updateTodoItem]);
+    console.log(props.description, 'is marked as ', done ? 'done' : 'undone');
+  }, [props.description, done, updateTodoItem]);
 
   return (<>
     <tr>
