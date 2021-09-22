@@ -18,7 +18,7 @@ function Clock(props: ClockProps) {
   const updateClock = useCallback(async () => {
     try {
       const response = await axios.get(`${CONFIG.API_ENDPOINT}/demo/time`);
-      setTime(response.data);
+      setTime(response.data.time);
     } catch (error) {
       setTime(`Error connecting to backend: ${(error as AxiosError).message}`)
     }

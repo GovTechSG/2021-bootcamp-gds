@@ -12,7 +12,4 @@ RUN npm install
 
 COPY --chown=${user} . .
 
-
-RUN npm run build
-
 CMD [ "npm", "start" ]
