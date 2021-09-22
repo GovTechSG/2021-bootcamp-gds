@@ -57,7 +57,8 @@ function Todo(props: TodoProps) {
 
   const onRefreshClicked = useCallback(async () => {
     console.log('Refresh button clicked');
-    /* refresh todos here */
+    await populateTodos();
+    console.log('todoList updated');
   }, [populateTodos]);
 
   useEffect(() => {
@@ -97,7 +98,7 @@ function Todo(props: TodoProps) {
                       <Button isPrimary isLoading={false}>Submit</Button>
                     </Col>
                     <Col>
-                      <Button type="button" isOutline>
+                      <Button type="button" isOutline onClick={onRefreshClicked}>
                         <span className='sgds-icon sgds-icon-refresh' />
                       </Button>
                     </Col>
