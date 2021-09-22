@@ -23,8 +23,8 @@ The button can be placed anywhere, we've decided to put it just above the table 
 ```diff
   <Row>
     <Col is={10}>
-      <input className="input" id='newTodoName' type='text' value={newTodoName}
-        onChange={(event) => { setNewTodoName(event.currentTarget.value) }} />
+      <input className="input" id='newTodoDescription' type='text' value={newTodoDescription}
+        onChange={(event) => { setNewTodoDescription(event.currentTarget.value) }} />
     </Col>
     <Col>
       <Button isPrimary isLoading={false}>Submit</Button>

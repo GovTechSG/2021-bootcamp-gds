@@ -16,16 +16,16 @@ Lets start by adding a input checkbox
 ```tsx
 <input type="checkbox"></input>
 ```
-This checkbox should be placed in line with the item name display for easier reference
+This checkbox should be placed in line with the item description display for easier reference
 
 ```diff
-return (<>
-    <tr>
-+      <td><input type="checkbox"></input></td>
-      <td width={'100%'}>{props.name}</td>
-    </tr>
-  </>
-);
+  return (<>
+      <tr>
++       <td><input type="checkbox"></input></td>
+        <td width={'100%'}>{props.description}</td>
+      </tr>
+    </>
+  );
 ```
 Here we are using default html input tag with the checkbox type
 
@@ -74,15 +74,15 @@ Now try refreshing the page and you will realise that although you can check the
 
 First we will need to track changes made for the checkbox for each item so that we know when to send the update to the back end and an easy way to do it in react is using the `useEffect` hook with dependencies `done` state variable.
 
-To have visibility on the behaviour lets add `console.log` to display item name and done state variable.
+To have visibility on the behaviour lets add `console.log` to display item description and done state variable.
 
 ```diff
- useEffect(() => {
-+    console.log(props.name, 'is marked as ', done ? 'done' : 'undone');
-  }, [props.name, done]);
+  useEffect(() => {
++   console.log(props.description, 'is marked as ', done ? 'done' : 'undone');
+  }, [props.description, done]);
 ```
 
-With `useEffect` when there are changes(updates) detected on any of the dependencies `[props.name, done]`. This method will be triggered.
+With `useEffect` when there are changes(updates) detected on any of the dependencies `[props.description, done]`. This method will be triggered.
 
 To view the method being triggered, inspect and view console, you will see that every time the checkbox is clicked the console will be logged with the message. You will also be able to observed that each checkbox has its own state being stored.
 
@@ -91,10 +91,10 @@ To view the method being triggered, inspect and view console, you will see that 
 We have created the trigger point using `useEffect` to call and update the back end. Now we will just need ot link the backend api call with `useEffect`
 
 ```diff
-useEffect(() => {
-+    console.log(props.name, 'is marked as ', done ? 'done' : 'undone');
-+    updateTodoItem();
-+  }, [props.name, done, updateTodoItem]);
+  useEffect(() => {
++   console.log(props.description, 'is marked as ', done ? 'done' : 'undone');
++   updateTodoItem();
++ }, [props.description, done, updateTodoItem]);
 ```
 
 By adding `updateTodoItem`, `useEffect` will always call for `updateTodoItem` method every time it detects a change in the `done` state variable.
@@ -102,13 +102,13 @@ By adding `updateTodoItem`, `useEffect` will always call for `updateTodoItem` me
 Now to update `updateTodoItem` to use the done state variable
 
 ```diff
-const updateTodoItem = useCallback(async () => {
-    await axios.put(`/api/todos/${props.id}`, {
+  const updateTodoItem = useCallback(async () => {
+    await axios.put(`${CONFIG.API_ENDPOINT}/todos/${props.id}`, {
       id: props.id,
-      name: props.name,
-+      done: done,
+      description: props.description,
++     done: done,
     });
-+  }, [props.name, props.id, done]);
++ }, [props.description, props.id, done]);
 ```
 
 Congratulations, now your state is persisted and refreshing will no longer pose a problem.

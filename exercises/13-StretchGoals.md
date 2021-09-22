@@ -2,11 +2,13 @@
 
 [Back to Exercises ](./README.md)
 
-Visual feedback is an important way of communicating with the user.
+Finished already? That was fast.
 
-> As a user, I would want 
+If you're looking for a challenge, try implementing a couple of these features:
+- make todo items deletable - add a delete button for each `TodoItem`
+- make todo items editable - add a text field for each `TodoItem`
+- add a `dueDate` field - let users see when each `TodoItem` is due
 
-In this exercise, we will add a refresh button to the Todo application.
+---
 
-
-[Back to Exercises ](./README.md) | [Solution](../solutions/12-DoneWhenISaySo.md)
+[Back to Exercises ](./README.md)
