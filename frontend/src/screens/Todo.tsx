@@ -1,6 +1,5 @@
 import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
-import { v4 } from 'uuid';
 
 import {
   Container,
@@ -15,7 +14,7 @@ import Table from '../components/Table';
 
 export type TodoItemProps = {
   id: string,
-  name: string,
+  description: string,
   done: boolean,
 };
 
@@ -25,20 +24,20 @@ function TodoItem(props: TodoItemProps) {
   const updateTodoItem = useCallback(async () => {
     await axios.put(`${CONFIG.API_ENDPOINT}/todos/${props.id}`, {
       id: props.id,
-      name: props.name,
+      description: props.description,
       done: done,
     });
-  }, [props.name, props.id, done]);
+  }, [props.description, props.id, done]);
 
   useEffect(() => {
-    console.log(props.name, 'is marked as ', done ? 'done' : 'undone');
+    console.log(props.description, 'is marked as ', done ? 'done' : 'undone');
     updateTodoItem();
-  }, [props.name, done, updateTodoItem]);
+  }, [props.description, done, updateTodoItem]);
 
   return (<>
     <tr>
       <td><input type="checkbox" checked={done} onChange={(event) => setDone(event.currentTarget.checked)}></input></td>
-      <td width={'100%'}>{props.name}</td>
+      <td width={'100%'}>{props.description}</td>
     </tr>
   </>
   );
@@ -49,16 +48,16 @@ interface TodoProps {
 }
 
 function Todo(props: TodoProps) {
-  const [todoItems, setTodoItems] = useState<TodoItemProps[]>([]);
-  const [newTodoName, setNewTodoName] = useState('');
+  const [todoItems, setTodoItems] = useState<{ [id: string]: TodoItemProps }>({});
+  const [newTodoDescription, setNewTodoDescription] = useState('');
 
   const populateTodos = useCallback(async () => {
     const result = await axios.get(`${CONFIG.API_ENDPOINT}/todos`);
-    setTodoItems(result.data.todoList || []);
+    setTodoItems(result.data);
   }, []);
 
   const [isRefresh, setIsRefresh] = useState(false);
-  const onRefreshClicked = useCallback( async () => {
+  const onRefreshClicked = useCallback(async () => {
     setIsRefresh(true);
     setTimeout(async () => {
       await populateTodos();
@@ -70,15 +69,13 @@ function Todo(props: TodoProps) {
     onRefreshClicked();
   }, [onRefreshClicked]);
 
-  async function updateTodos() {
+  async function submitNewTodo() {
     const newTodo = {
-      id: v4(),
-      name: newTodoName,
-      done: false,
+      description: newTodoDescription,
     };
-    await axios.put(`${CONFIG.API_ENDPOINT}/todos/${newTodo.id}`, newTodo);
+    await axios.post(`/api/todos`, newTodo);
     await populateTodos();
-    setNewTodoName('');
+    setNewTodoDescription('');
   }
 
   return (
@@ -90,16 +87,16 @@ function Todo(props: TodoProps) {
           </Section>
           <Section isSmall>
             <form action='#' onSubmit={(event) => {
-              updateTodos();
+              submitNewTodo();
               event?.preventDefault();
             }}>
               <div className='field'>
-                <label className="label" htmlFor="newTodoName">New todo: </label>
+                <label className="label" htmlFor="newTodoDescription">New todo: </label>
                 <div className='control'>
                   <Row>
                     <Col is={10}>
-                      <input className="input" id='newTodoName' type='text' value={newTodoName}
-                        onChange={(event) => { setNewTodoName(event.currentTarget.value) }} />
+                      <input className="input" id='newTodoDescription' type='text' value={newTodoDescription}
+                        onChange={(event) => { setNewTodoDescription(event.currentTarget.value) }} />
                     </Col>
                     <Col>
                       <Button isPrimary isLoading={false}>Submit</Button>
@@ -119,7 +116,7 @@ function Todo(props: TodoProps) {
               <thead><tr><th>Done</th><th>Description</th></tr></thead>
               <tbody>
                 {
-                  todoItems.map((item) => (<TodoItem key={item.id} {...item} />))
+                  Object.keys(todoItems).map((item) => (<TodoItem key={todoItems[item].id} {...todoItems[item]} />))
                 }
               </tbody>
             </Table>

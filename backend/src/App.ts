@@ -1,49 +1,17 @@
-import hapi from '@hapi/hapi';
-import {hello, time} from './handlers/demo';
-import { list, update } from './handlers/todos';
+import express from "express";
 
-function init() {
-  const server = new hapi.Server({
-    address: '0.0.0.0',
-    port: process.env.PORT || 3001,
-    debug: {
-      log: process.env.NODE_ENV === 'development' ? ['*'] : undefined,
-      request: process.env.NODE_ENV === 'development' ? ['*'] : undefined,
-    },
-  });
-  
-  server.route({
-    method: 'GET',
-    path: '/',
-    handler: (req, h) => h.redirect(process.env.APP_URL),
-  });
-  
-  server.route({
-    method: 'GET',
-    path: '/api/demo/time',
-    handler: time,
-  });
-  
-  server.route({
-    method: 'GET',
-    path: '/api/demo/hello',
-    handler: hello,
-  });
-  
-  server.route({
-    method: 'PUT',
-    path: '/api/todos/{todoID}',
-    handler: update,
-  });
-  
-  server.route({
-    method: 'GET',
-    path: '/api/todos',
-    handler: list,
-  });
+import TodoRouter from "./routes";
+import swaggerUi from "swagger-ui-express";
+import swaggerJson from "../swagger.json";
 
-  return server;
-}
+const app = express();
+const port = process.env.PORT || 9000;
 
-const server = init();
-server.start();
+app.use("/swagger", swaggerUi.serve, swaggerUi.setup(swaggerJson));
+
+app.use(express.json());
+app.use("/api", TodoRouter);
+
+export default app.listen(port, () => {
+  console.log(`Backend app listening at http://localhost:${port}`);
+});
