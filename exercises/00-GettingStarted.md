@@ -8,6 +8,22 @@
 
 Let's get things up and running!
 
+Firstly, clone this repository and navigate into the main codebase
+
+```console
+git clone https://github.com/GovTechSG/2021-bootcamp-gds.git
+git fetch
+cd 2021-bootcamp-gds
+```
+
+Checkout to the exercise branch
+
+```console
+git checkout exercises/frontend
+```
+
+Run the command below:
+
 ```console
 docker-compose up --build
 ```
@@ -27,6 +43,9 @@ To tear down the environment:
 ```console
 docker-compose down
 ```
+
+---
+If all is good, access the locally hosted front end app at `http://localhost:3000/`
 
 ---
 
