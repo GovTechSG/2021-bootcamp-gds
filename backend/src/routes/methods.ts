@@ -48,13 +48,8 @@ export async function getAllTodos(_req: Request, res: Response) {
 export async function deleteTodoById(req: Request, res: Response) {
   const { id } = req.params;
   if (id in todoList) {
-    const entryToDelete = todoList[id];
-    if (entryToDelete.description === 'Improve backend') {
-      return res.status(405).json(messageJson('This todo cannot be deleted'));
-    } else {
       delete todoList[id];
       return res.status(200).json();
-    }
   } else {
     return res.status(400).json(ERROR_MSGS.NO_SUCH_UUID);
   }
@@ -63,13 +58,11 @@ export async function deleteTodoById(req: Request, res: Response) {
 export async function updateTodoById(req: Request, res: Response) {
   const { id } = req.params;
   const updatedTodo = req.body;
-  if (updatedTodo.id !== id) {
-    return res.status(409).json(messageJson("UUID in path and body do not match"));
-  } else if (id in todoList) {
-      todoList[id] = updatedTodo;
-      return res.status(200).send();
+  if (id in todoList) {
+    todoList[id] = updatedTodo;
+    return res.status(200).send();
   } else {
-      return res.status(400).json(messageJson("UUID does not exist"));
+    return res.status(400).json(messageJson("UUID does not exist"));
   }
 }
 
