@@ -84,7 +84,7 @@ export async function getTodoById(req: Request, res: Response) {
 
 export async function createRandomTodo(_req: Request, res: Response) {
   const abortController = new AbortController();
-  setTimeout(() => abortController.abort(), 5000);
+  setTimeout(() => abortController.abort(), 3000);
 
   try {
     const responseJson = await fetch("https://www.boredapi.com/api/activity", {
