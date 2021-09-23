@@ -13,7 +13,4 @@ todoRouter.get("/todos/:id", getTodoById);
 todoRouter.put("/todos/:id", updateTodoById);
 todoRouter.delete("/todos/:id", deleteTodoById);
 
-// For a demo, can ignore for now
-todoRouter.get("/demo/time", (req, res) => res.status(200).send({ time: new Date().toTimeString() }));
-
 export default todoRouter;
