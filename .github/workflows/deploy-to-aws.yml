@@ -1,0 +1,165 @@
+name: Deploy to AWS
+on: 
+  - push
+  - workflow_dispatch
+jobs:
+  Build-Applications:
+    runs-on: ubuntu-latest
+    container: node:12.16.1-alpine
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Build Frontend
+        run: |
+          cd frontend
+          npm install --yes
+          npm install
+          REACT_APP_API_ENDPOINT='${TF_ENDPOINT_INPUT}' npm run build
+
+      - name: Upload Frontend build as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: frontend-build
+          path: frontend/build/
+      
+  Setup-TF-Env:
+    runs-on: ubuntu-latest
+    container: amazon/aws-cli:2.2.37
+    env: 
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: ap-southeast-1
+    steps:
+      - name: Get TF State Resource Variable Names
+        run: |
+          ACCOUNT_ID=`aws sts get-caller-identity | grep "Account" | grep -o '[0-9]*'`
+          ACCOUNT_UID=`echo -n $ACCOUNT_ID | sha256sum | grep -o '[a-f0-9]*' | cut -c1-12`
+          BUCKET_NAME="gdsbucket-tf-${ACCOUNT_UID}"
+          DYNAMO_TABLE_NAME="gdstable-tf-${ACCOUNT_UID}"
+
+          # Set Persistent Variable
+          echo "bucket_name=${BUCKET_NAME}" >> $GITHUB_ENV
+          echo "account_id=${ACCOUNT_ID}" >> $GITHUB_ENV
+          echo "account_uid=${ACCOUNT_UID}" >> $GITHUB_ENV
+          echo "dynamo_table_name=${DYNAMO_TABLE_NAME}" >> $GITHUB_ENV
+
+          # Store Variables to Artifact
+          echo "bucket_name=${BUCKET_NAME}" >> artifacts.txt
+          echo "dynamo_table_name=${DYNAMO_TABLE_NAME}" >> artifacts.txt
+      
+      - name: Store TF State Resource Variable Names as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: tfstate-resource
+          path: artifacts.txt
+
+      - name: Create S3 Bucket for TF State
+        run: |
+          BUCKET_EXISTS=`aws s3 ls | grep ${{ env.bucket_name }} | wc -l`
+
+          # Create bucket if it doesn't exist
+          if [ "$BUCKET_EXISTS" -eq "0" ]; then
+            echo "creating bucket ${{ env.bucket_name }}"
+            aws s3api create-bucket --bucket ${{ env.bucket_name }} --region=ap-southeast-1 --create-bucket-configuration LocationConstraint=ap-southeast-1
+          fi
+
+          # Lock Public Access to protect TF State
+          aws s3api put-public-access-block \
+            --bucket ${{ env.bucket_name }} \
+            --public-access-block-configuration "BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true"
+
+      - name: Create Dynamo DB for TF State
+        run: |
+          DYNAMO_EXISTS=`aws dynamodb list-tables | grep ${{ env.dynamo_table_name }} | wc -l`
+
+          # Create dynamoDB if it doesn't exist
+          if [ "$DYNAMO_EXISTS" -eq "0" ]; then
+            aws dynamodb create-table \
+              --table-name ${{ env.dynamo_table_name }} \
+              --attribute-definitions AttributeName=LockID,AttributeType=S \
+              --key-schema AttributeName=LockID,KeyType=HASH \
+              --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5
+          fi
+
+  Deploy-With-TF:
+    runs-on: ubuntu-latest
+    needs: 
+      - Setup-TF-Env
+      - Build-Applications
+    container: hashicorp/terraform:1.0.6
+    env: 
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_DEFAULT_REGION: ap-southeast-1
+    steps:
+      - name: Get TF State Resource Variable Names from artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: tfstate-resource
+
+      - name: Get TF State Resource Variable Names
+        run: |
+          while read line; do
+            echo "$line" >> $GITHUB_ENV
+          done <artifacts.txt
+
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Get Frontend build from artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: frontend-build
+          path: frontend/build
+
+      - name: Initialize Terraform
+        run: |
+          cd deployment
+          terraform init \
+            -backend-config="bucket=${{ env.bucket_name }}" \
+            -backend-config="key=gds_bc_main" \
+            -backend-config="region=ap-southeast-1" \
+            -backend-config="dynamodb_table=${{ env.dynamo_table_name }}"
+
+      - name: Plan Deployment
+        run: |
+          cd deployment
+          terraform plan -out="apply.tfplan"
+      
+      - name: Apply Deployment
+        run: |
+          cd deployment
+          terraform apply apply.tfplan
+
+
+          
+  # Explore-GitHub-Actions:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+  #     - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+  #     - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+  #     - name: Check out repository code
+  #       uses: actions/checkout@v2
+  #     - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+  #     - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+  #     - name: List files in the repository
+  #       run: |
+  #         ls ${{ github.workspace }}
+  #     - name: Where am I
+  #       run: |
+  #         pwd
+  #         ls
+  #         echo "hello there"
+  #     - run: echo "🍏 This job's status is ${{ job.status }}."
+
+  # terraform init \
+  #   -backend-config="address=demo.consul.io" \
+  #   -backend-config="path=example_app/terraform_state" \
+  #   -backend-config="scheme=https"
+
+# bucket         = "cstack-iac-bucket"
+# key            = "gcc-aws/cstack/dev/main"
+# region         = "ap-southeast-1"
+# dynamodb_table = "cstack-iac-table"
