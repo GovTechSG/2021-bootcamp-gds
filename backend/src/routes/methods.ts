@@ -7,7 +7,7 @@ export const todoList: { [id: string]: Todo } = {};
 export async function createTodo(req: Request, res: Response) {
   const body = req.body;
   if (!("description" in body)) {
-    return res.status(400).json({ message: "Input task required"});
+    return res.status(400).json({ message: "Input task required" });
   }
   const newTaskDescription = body.description;
   const newTodo = {
@@ -27,9 +27,9 @@ export async function getAllTodos(_req: Request, res: Response) {
 export async function deleteTodoById(req: Request, res: Response) {
   const { id } = req.params;
   if (id in todoList) {
-      delete todoList[id];
-      return res.status(200).send();
+    delete todoList[id];
+    return res.status(200).json(todoList);
   } else {
-      return res.status(400).json({ message: "UUID does not exist" });
+    return res.status(400).json({ message: "UUID does not exist" });
   }
 }
