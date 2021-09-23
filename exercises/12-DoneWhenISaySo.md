@@ -1,5 +1,9 @@
 # 1.2 Done When I Say So
 
+>💡 If you haven't completed Exercise 1.1, get up to speed by switching to the `frontend/checkpoint-1` branch!
+
+> `git checkout frontend/checkpoint-1`
+
 [Back to Exercises ](./README.md) | [Next Exercise >](./13-StretchGoals.md)
 
 Visual feedback is an important way of communicating with the user.
