@@ -46,6 +46,8 @@ docker-compose down
 
 ---
 If all is good, access the locally hosted front end app at `http://localhost:3000/`
+<img width="1419" alt="fe-ss" src="https://user-images.githubusercontent.com/43963814/134466840-341293c3-c0cd-4edd-b64d-e6564ab20199.png">
+You should arrive at this screen
 
 ---
 
