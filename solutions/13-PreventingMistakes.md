@@ -50,11 +50,41 @@ We can add a validation like this:
 ```
 
 Now, empty inputs aren't added into your Todo list. 
-We can further improve the validation by ensuring white spaces aren't allowed as well; introducing, the Javascript `trim` method
+We can further improve the validation by ensuring white spaces aren't allowed as well; introducing, the Javascript `trim` method:
+
+```tsx
+  async function submitNewTodo() {
+    // Add a check here
+    if (newTodoDescription.trim() !== "") {
+        const newTodo = {
+        description: newTodoDescription,
+        };
+        await axios.post(`/api/todos`, newTodo);
+        await populateTodos();
+        setNewTodoDescription('');
+    }
+  }
+```
 
 Lastly, we should provide some form of feedback to the user in the event they specify an invalid input.
 
-We can introduce a basic alert box here `alert("message")`, but we can introduce nicer alert/validation banners using external libraries!
+```tsx
+  async function submitNewTodo() {
+    // Add a check here
+    if (newTodoDescription.trim() !== "") {
+        const newTodo = {
+        description: newTodoDescription,
+        };
+        await axios.post(`/api/todos`, newTodo);
+        await populateTodos();
+        setNewTodoDescription('');
+    } else {
+      alert('Invalid Todo input!');
+    }
+  }
+```
+
+We are using a basic alert box here, but we can introduce nicer alert/validation banners using external libraries!
 
 ---
 
