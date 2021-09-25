@@ -10,6 +10,7 @@
 - [1.0 The Frontend](./10-TheFrontend.md)
 - [1.1 Refreshing Changes](./11-RefreshingChanges.md)
 - [1.2 Done When I Say So](./12-DoneWhenISaySo.md)
-- [1.3 Stretch Goals](./13-StretchGoals.md)
+- [1.3 Preventing Mistakes](./13-PreventingMistakes.md)
+- [1.4 Stretch Goals](./14-StretchGoals.md)
 
 [Back to Introduction](../README.md)

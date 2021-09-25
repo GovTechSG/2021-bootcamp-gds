@@ -119,4 +119,4 @@ Now to update `updateTodoItem` to use the done state variable
 Congratulations, now your state is persisted and refreshing will no longer pose a problem.
 
 
-[Back to Exercises ](./README.md) | [Solution](../solutions/12-DoneWhenISaySo.md) | [Next Exercise >](./13-StretchGoals.md)
+[Back to Exercises ](./README.md) | [Solution](../solutions/12-DoneWhenISaySo.md) | [Next Exercise >](./13-PreventingMistakes.md)
