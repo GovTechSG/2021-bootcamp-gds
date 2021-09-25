@@ -65,6 +65,7 @@ function Todo(props: TodoProps) {
   }, [onRefreshClicked]);
 
   async function submitNewTodo() {
+    /* validate todos here */
     const newTodo = {
       description: newTodoDescription,
     };
