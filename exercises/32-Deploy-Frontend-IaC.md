@@ -40,19 +40,20 @@ In this section, you will set the secrets obtained from the previous section in 
    2. Go to the repository "Settings"
    3. Go to the "Secrets" section on the left panel
    4. Create two new repository secrets: <AWS_ACCESS_KEY_ID>, <AWS_SECRET_ACCESS_KEY>, from the secrets obtained in the previous section
-2. Run the GitHub Actions
-3. Check your AWS Console, you should see that:
+2. Uncomment L3 in the [deploy-to-aws](../.github/workflows/deploy-to-aws.yml) Github Workflow and push
+3. Observe the deployment in the GitHub Actions
+4. Check your AWS Console, you should see that:
    1. A VPC is created
    2. 4 Subnets are created
    3. An internet gateway is created
    4. An S3 Bucket is created
    5. Your React Application is stored in the S3 Bucket
-4. Review the Github Actions logs to see the steps that were carried out
+5. Review the Github Actions logs to see the steps that were carried out
    1. Note that under the Deploy-With-TF job, the step "Plan Deployment" describes the resources that will be deployed into the cloud
    2. A URL to access your deployed React Application can be found in the step "Apply Deployment"
    3. The URL should look something like this: `gds-react-bucket-abcd1234def.s3-website-ap-southeast-1.amazonaws.com`
-5. You should be able to access your React Application from the URL
-6. All done!
+6. You should be able to access your React Application from the URL
+7. All done!
 
 ---
 
