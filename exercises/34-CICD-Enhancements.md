@@ -10,8 +10,8 @@ These include:
 
 1. Code Linting
 2. Image Scanning
-3. IaC Scanning
-4. Automated Dependency Updating
+3. Automated Dependency Updating
+4. IaC Scanning
 
 Leveraging on these tools allows Developers to detect and prevent defects in their codebase earlier in the Software Development Lifecycle (SDLC) more frequently. This is known as "Shift-Left Testing" in DevOps, and it fully embodies the "Test early and often" mantra typically seen in Agile organizations practicing iterative development.
 
@@ -47,7 +47,7 @@ Requirements:
 1. Flag out code quality issues in the frontend and backend source code
 2. (Optional) Lint other files in the repository such as the yaml files used to define your CI/CD pipeline
 
-You can consider using the [Super-Linter GitHub Action](https://github.com/github/super-linter), which natively supports linting all languages in the codebase (ie. Javascript, Dockerfile, GitHub Actions).
+You can consider using the [Super-Linter GitHub Action](https://github.com/github/super-linter), which natively supports linting all languages in the codebase (ie. Javascript, Dockerfile, YAML).
 
 Upon successfully completing the exercise, the job will most likely fail as there are several linting errors in the codebase. You may consider following the recommendations to fix the errors.
 
@@ -72,9 +72,11 @@ Add a new job in `.github/workflows/main.yml` to automatically scan the frontend
 Requirements:
 
 - Flag out vulnerabilities found in the images
-- Prevent the `Build-And-Push` from running if vulnerabilities are detected
+- Prevent the `Build-And-Push` job from running if vulnerabilities are detected
 
 There are several open-source image scanning GitHub Actions available to accomplish this task. You may consider using the [Container Scan GitHub Action](https://github.com/Azure/container-scan) which scans for vulnerable dependencies and checks for adherence to CIS Benchmarks.
+
+Similar to Stretch Goal 1, the job will fail as there are several outdated dependencies in the codebase. You may consider following the recommendations to fix the errors.
 
 ### Automated Dependency Updating
 
@@ -97,6 +99,9 @@ Requirements:
 3. Automated daily checks
 4. Automated suggested fixes via Pull Requests
 
+When successfully created, pull requests should be automatically created. For example:  
+![Automated PRs with dependency updates](https://user-images.githubusercontent.com/11332803/134580206-81266c42-96e6-4462-96f0-598e94b1e5f3.png)
+
 ### Infrastructure-as-Code (IaC) Scanning
 
 TODO:
@@ -113,6 +118,7 @@ In addition to the above stretch goals, you may consider working on these challe
 
 - Add unit tests to the frontend and backend code and automate testing in the CI/CD pipeline
 - Further reduce the size of the frontend and backend images
+- Modify the pipeline to only build and push images when there are code changes in the frontend or backend
 - Refactor the pipeline to use the [build-push-action GitHub Action](https://github.com/docker/build-push-action)
 - Implement caching
   - https://github.com/docker/build-push-action/blob/master/docs/advanced/cache.md
