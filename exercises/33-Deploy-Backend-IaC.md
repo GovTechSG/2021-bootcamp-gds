@@ -41,6 +41,7 @@ Request ID: 8bef2d59d5fee61f59684923d659f02e
 
 1. Modify [gds-backend.tf](../deployment/gds-backend.tf) to have your containerised application deployed onto the EC2.
 2. Modify [gds-frontend.tf](../deployment/gds-frontend.tf) to ensure that your frontend is pointed to your backend.
+3. Modify [gds-networking.tf](../deployment/gds-networking.tf) to ensure that your backend is accessible from your IP address
 
 #### Definition of Done
 
