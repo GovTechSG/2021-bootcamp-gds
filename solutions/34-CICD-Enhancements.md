@@ -75,7 +75,7 @@ jobs:
           severity-threshold: CRITICAL
 ```
 
-It is also a good idea to prevent the image from being pushed to an image registry when vulnerabilities / compliance violations are detected. You can make use of the `needs` keyword to assign job dependencies such that the `Build-And-Push` job requires the `Security-Scan` job to pass.
+It is also a good idea to prevent the image from being pushed to a container registry when vulnerabilities / compliance violations are detected. You can make use of the `needs` keyword to assign job dependencies such that the `Build-And-Push` job requires the `Security-Scan` job to pass.
 
 ```yaml
 jobs:
@@ -213,9 +213,6 @@ updates:
       prefix: "npm-backend"
       include: "scope"
 ```
-
-When successfully created, pull requests should be automatically created. For example:  
-![Automated PRs with dependency updates](https://user-images.githubusercontent.com/11332803/134580206-81266c42-96e6-4462-96f0-598e94b1e5f3.png)
 
 ---
 
