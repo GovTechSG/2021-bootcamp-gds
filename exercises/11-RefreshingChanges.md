@@ -63,7 +63,7 @@ Instead of calling `console.log()`, let's make it call `populateTodos`:
 ```tsx
 const onRefreshClicked = useCallback(async () => {
   console.log('Refresh button clicked');
-  await /* insert asynchronous network-bound function call here */;
+  await /* insert asynchronous network-bound function call here */
   console.log('todoList updated');
 }, [populateTodos]);
 ```
