@@ -75,7 +75,7 @@ REPOSITORY                   TAG       IMAGE ID       CREATED          SIZE
 
 As shown, each image is > 1GB in size! For a simple web application, the storage requirements seem rather large. Some disadvantages of having large unoptimized images include:
 
-1. Higher storage requirements. You may easily exceed storage quotas in your image registries.
+1. Higher storage requirements. You may easily exceed storage quotas in your container registries.
 2. Higher bandwidth utilization to download and upload images.
 3. Potentially slower image build times.
 
@@ -83,7 +83,7 @@ If we take a look at one of the Dockerfiles (either in `/frontend` or `/backend`
 
 In this case, the `node:14` image is built from Debian Linux with Node.js v14 installed, along with a bunch of additional source controls software, libraries and build tools. You may not require all these additional tools in most cases.
 
-A common way to reduce image size is to use another parent image that does not have these additional tools installed, or choose a parent image built on other lighter Linux Distributions like Alpine.
+A common way to reduce image size is to use another parent image that does not have these additional tools installed, or choose a parent image built on other lighter Linux Distributions like `Alpine`.
 
 You can view other image variants for Node.js [here](https://hub.docker.com/_/node).
 
@@ -105,12 +105,12 @@ There are drawbacks to the way we build and run our application now:
 1. It is difficult to share images with other members in the project team since everything is done locally.
 2. We must manually run commands to rebuild images every time any code changes are made.
 
-Fortunately, we can resolve both issues with the help of image registries and automation.
+Fortunately, we can resolve both issues with the help of container registries and automation.
 
-1. Images can be pushed (uploaded) to an image registry, which can be pulled (downloaded) by the rest of your team. Image registries are a central place to store and distribute images. Some examples include Dockerhub and the GitHub Container Registry (GHCR).
-2. We can configure CI/CD pipelines to automatically build and push the images to an image registry. This can be achieved using GitHub Actions.
+1. Images can be pushed (uploaded) to a container registry, which can be pulled (downloaded) by the rest of your team. Container registries are a central place to store and distribute images. Some examples include Dockerhub and the GitHub Container Registry (GHCR).
+2. We can configure CI/CD pipelines to automatically build and push the images to a container registry. This can be achieved using GitHub Actions.
 
-Note that it is a best practice to use a unique tag for each image pushed to an image registry. This is to ensure that images are immutable (ie. will not be changed). For example, we can use the Git commit SHA for the image tag.
+Note that it is a best practice to use a unique tag for each image pushed to a container registry. This is to ensure that images are immutable (ie. will not be changed). For example, we can use the Git commit SHA for the image tag.
 
 #### Exercise 2
 
@@ -125,7 +125,7 @@ Create a pipeline using GitHub Actions to build and push the frontend and backen
 
 Hint: You would run the same commands used to build a Docker image locally as you would in the CI/CD pipeline. Consider using `docker build` and `docker push`.
 
-Here's the baseline configuration for you to get started:
+Here's the baseline configuration (`.github/workflows/main.yml`) for you to get started:
 
 ```yaml
 name: Build and Push Images to GitHub Container Registry (GHCR)
