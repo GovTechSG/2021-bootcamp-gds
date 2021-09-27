@@ -27,7 +27,7 @@ resource "aws_s3_bucket" "react_frontend" {
             "Effect": "Allow",
             "Principal": "*",
             "Action": "s3:GetObject",
-            "Resource": "arn:aws:s3:::gds-react-bucket-jl49qjvn5qq/*"
+            "Resource": "arn:aws:s3:::gds-react-bucket-${lower(random_id.react_frontend_id.id)}/*"
         }
     ]
 }
