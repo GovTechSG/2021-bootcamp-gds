@@ -37,6 +37,7 @@ resource "aws_s3_bucket" "react_frontend" {
 // Content Type Setting
 locals {
   content_type_ext_mapping = {
+    "css" = "text/css"
     "html" = "text/html"
     "png" = "image/png"
     "svg" = "image/svg+xml"
