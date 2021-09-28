@@ -4,14 +4,14 @@
 
 ## Launching the development environment
 
-> 💡 Prerequisite: Do ensure you have [Docker](https://www.docker.com/get-started) installed on your local machine!
+> 💡 Prerequisite: Do ensure you have [Docker](https://www.docker.com/get-started) installed on your local machine! Also, make sure that Docker desktop is running on the background!
 
 Let's get things up and running!
 
 Firstly, clone this repository and navigate into the main codebase
 
 ```console
-git clone https://github.com/GovTechSG/2021-bootcamp-gds.git
+git clone <your-repo-here>
 git fetch
 cd 2021-bootcamp-gds
 ```
