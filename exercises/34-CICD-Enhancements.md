@@ -104,13 +104,17 @@ When successfully created, pull requests should be automatically created. For ex
 
 ### Infrastructure-as-Code (IaC) Scanning
 
-TODO:
-
-TFSec
+The IaC code defines your cloud infrastructure. Because you are now fully in charge of your cloud resources, you too are responsible for the security of the infrastructure. While we can always rely on a kind colleague to do a peer review prior to pushing code onto the cloud, a better way might be to include automated security scannings in your pipeline that will fail the deployment if it does not comply to security best practices.
 
 #### Stretch Goal 4
 
-Add TFSec job to `.github/workflows/deploy-to-aws.yml`
+Add an automated vulnerability scanner for Terraform within the pipeline that will fail the pipeline if vulnerabilities are detected.
+
+Requirements:
+
+1. Add TFSec job to `.github/workflows/deploy-to-aws.yml`
+2. Fail the pipeline if vulnerabilities are detected
+3. Resolve or accept the risks (if any) identified by TFSec
 
 ### Further Stretch Goals
 
@@ -124,6 +128,7 @@ In addition to the above stretch goals, you may consider working on these challe
   - https://github.com/docker/build-push-action/blob/master/docs/advanced/cache.md
   - https://evilmartians.com/chronicles/build-images-on-github-actions-with-docker-layer-caching
 - Deploy other cloud services via IaC
+- Implement branching strategies with your CI/CD pipeline - e.g. deploying to cloud only on main branch
 
 ---
 

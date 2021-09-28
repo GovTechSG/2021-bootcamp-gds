@@ -16,6 +16,13 @@ todoRouter.put("/todos/:id", updateTodoById);
 todoRouter.delete("/todos/:id", deleteTodoById);
 todoRouter.post("/todos/random", createRandomTodo);
 
-todoRouter.get("/demo/time", (req, res) => res.status(200).send({ time: new Date().toTimeString() }));
+todoRouter.get("/demo/time", (req, res) => {
+  res.set('Access-Control-Allow-Origin', '*');
+  res.set('Access-Control-Allow-Methods', 'OPTIONS, GET, POST, DELETE');
+  res.set('Access-Control-Allow-Credentials', 'true');
+  res.set('Access-Control-Allow-Headers', '*');
+  res.set('Access-Control-Max-Age', '3600');
+  res.status(200).send({ time: new Date().toTimeString() })
+});
 
 export default todoRouter;
