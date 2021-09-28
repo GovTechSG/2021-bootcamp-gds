@@ -2,7 +2,7 @@
 
 [Back to Exercises](./README.md) | [Next Exercise >](./12-DoneWhenISaySo.md)
 
-> As a user, I would like to see if my todo list has changed since the last time I checked.
+> As a user, I would like to see if my todo list has changed since the last time I checked, so that I can stay updated on my tasks.
 > 
 > It would be awesome to also have a visual indication of the system working on my request. ^_^
 
