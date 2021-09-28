@@ -1,6 +1,6 @@
 # 1.2 Done When I Say So
 
-[Back to Exercises ](./README.md) | [Next Exercise >](./13-StretchGoals.md)
+[Back to Exercises ](./README.md) | [Next Exercise >](./13-PreventingMistakes.md)
 
 Visual feedback is an important way of communicating with the user.
 
@@ -114,4 +114,4 @@ Now to update `updateTodoItem` to use the done state variable
 Congratulations, now your state is persisted and refreshing will no longer pose a problem.
 
 
-[Back to Exercises ](./README.md) | [Exercise](../exercises/12-DoneWhenISaySo.md) | [Next Exercise >](./13-StretchGoals.md)
+[Back to Exercises ](./README.md) | [Exercise](../exercises/12-DoneWhenISaySo.md) | [Next Exercise >](./13-PreventingMistakes.md)

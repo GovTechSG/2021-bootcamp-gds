@@ -55,4 +55,4 @@ Help is always just a click away (at the bottom of the page).
 
 ---
 
-[Back to Exercises](../exercises/README.md) | [Solution](../solutions/00-GettingStarted.md)
+[Back to Exercises](../exercises/README.md) | [Solution](../solutions/00-GettingStarted.md) | | [Next Exercise >](./10-TheFrontend.md)

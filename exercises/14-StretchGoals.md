@@ -1,5 +1,9 @@
-# 1.3 Stretch Goals
+# 1.4 Stretch Goals
 
+>💡 If you haven't completed Exercise 1.3, get up to speed by switching to the `frontend/checkpoint-3` branch!
+
+> `git checkout frontend/checkpoint-3`
+> 
 [Back to Exercises ](./README.md)
 
 Finished already? That was fast.
