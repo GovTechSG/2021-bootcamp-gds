@@ -8,7 +8,7 @@
 
 Visual feedback is an important way of communicating with the user.
 
-> As a user, I would want be able to check the items so that i can track the state of each item in the to do list
+> As a user, I would want be able to check the items so that I can track the state of each item in the to do list
 
 In this exercise, we will add a check box for each item to the Todo application.
 
@@ -93,7 +93,7 @@ To view the method being triggered, inspect and view console, you will see that 
 
 ### Time to update Backend
 
-We have created the trigger point using `useEffect` to call and update the back end. Now we will just need ot link the backend api call with `useEffect`
+We have created the trigger point using `useEffect` to call and update the back end. Now we will just need to link the backend api call with `useEffect`
 
 ```tsx
   useEffect(() => {
@@ -102,7 +102,7 @@ We have created the trigger point using `useEffect` to call and update the back 
   }, [props.description, done, /* Insert code here */]);
 ```
 
-By adding `updateTodoItem`, `useEffect` will always call for `updateTodoItem` method every time it detects a change in the `done` state variable.
+By adding `updateTodoItem`, `useEffect` will always call the `updateTodoItem` method every time it detects a change in the `done` state variable.
 
 Now to update `updateTodoItem` to use the done state variable
 
