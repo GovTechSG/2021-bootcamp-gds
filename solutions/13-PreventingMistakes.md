@@ -89,4 +89,4 @@ We are using a basic alert box here, but we can introduce nicer alert/validation
 ---
 
 
-[Back to Exercises ](./README.md) | [Solution](../solutions/13-PreventingMistakes.md) | [Next Exercise >](./14-StretchGoals.md)
+[Back to Exercises ](./README.md) | [Exercise](../exercises/13-PreventingMistakes.md) | [Next Exercise >](./14-StretchGoals.md)
