@@ -9,4 +9,4 @@ Along the way, we'll cover concepts like components, state, hooks, and events.
 
 In the second exercise, we'll add a simple checkbox to track the state of each todo item, and turn it into a controlled component with a bit of code.
 
-[Back to Exercises](./README.md) | [Solution](../solutions/10-TheFrontend.md) | [Next Exercise >](./11-RefreshingChanges.md)
+[Back to Exercises](./README.md) | [Next Exercise >](./11-RefreshingChanges.md)
