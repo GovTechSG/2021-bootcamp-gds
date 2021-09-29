@@ -76,7 +76,7 @@ function Todo(props: TodoProps) {
       const newTodo = {
         description: newTodoDescription,
       };
-      await axios.post(`/api/todos`, newTodo);
+      await axios.post(`${CONFIG.API_ENDPOINT}/todos`, newTodo);
       await populateTodos();
       setNewTodoDescription('');
     } else {
