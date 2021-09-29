@@ -21,23 +21,11 @@ const ERROR_MSGS = {
 
 // Option 3 - Encapsulate the response entirely
 function badRequest(res: Response, message: string) {
-  res.set('Access-Control-Allow-Origin', '*');
-  res.set('Access-Control-Allow-Methods', 'OPTIONS, GET, POST, DELETE');
-  res.set('Access-Control-Allow-Credentials', 'true');
-  res.set('Access-Control-Allow-Headers', '*');
-  res.set('Access-Control-Max-Age', '3600');
-
   return res.status(400).json({ message });
 }
 
 
 export async function createTodo(req: Request, res: Response) {
-  res.set('Access-Control-Allow-Origin', '*');
-  res.set('Access-Control-Allow-Methods', 'OPTIONS, GET, POST, DELETE');
-  res.set('Access-Control-Allow-Credentials', 'true');
-  res.set('Access-Control-Allow-Headers', '*');
-  res.set('Access-Control-Max-Age', '3600');
-
   const body = req.body;
   if (!("description" in body)) {
     return res.status(400).json({ message: "Input task required"});
@@ -54,22 +42,10 @@ export async function createTodo(req: Request, res: Response) {
 
 // Can mention unused request param
 export async function getAllTodos(_req: Request, res: Response) {
-  res.set('Access-Control-Allow-Origin', '*');
-  res.set('Access-Control-Allow-Methods', 'OPTIONS, GET, POST, DELETE');
-  res.set('Access-Control-Allow-Credentials', 'true');
-  res.set('Access-Control-Allow-Headers', '*');
-  res.set('Access-Control-Max-Age', '3600');
-
   return res.status(200).json(todoList);
 }
 
 export async function deleteTodoById(req: Request, res: Response) {
-  res.set('Access-Control-Allow-Origin', '*');
-  res.set('Access-Control-Allow-Methods', 'OPTIONS, GET, POST, DELETE');
-  res.set('Access-Control-Allow-Credentials', 'true');
-  res.set('Access-Control-Allow-Headers', '*');
-  res.set('Access-Control-Max-Age', '3600');
-
   const { id } = req.params;
   if (id in todoList) {
     const entryToDelete = todoList[id];
@@ -85,12 +61,6 @@ export async function deleteTodoById(req: Request, res: Response) {
 }
 
 export async function updateTodoById(req: Request, res: Response) {
-  res.set('Access-Control-Allow-Origin', '*');
-  res.set('Access-Control-Allow-Methods', 'OPTIONS, GET, POST, DELETE');
-  res.set('Access-Control-Allow-Credentials', 'true');
-  res.set('Access-Control-Allow-Headers', '*');
-  res.set('Access-Control-Max-Age', '3600');
-
   const { id } = req.params;
   const updatedTodo = req.body;
   if (updatedTodo.id !== id) {
@@ -104,12 +74,6 @@ export async function updateTodoById(req: Request, res: Response) {
 }
 
 export async function getTodoById(req: Request, res: Response) {
-  res.set('Access-Control-Allow-Origin', '*');
-  res.set('Access-Control-Allow-Methods', 'OPTIONS, GET, POST, DELETE');
-  res.set('Access-Control-Allow-Credentials', 'true');
-  res.set('Access-Control-Allow-Headers', '*');
-  res.set('Access-Control-Max-Age', '3600');
-
   const { id } = req.params;
   if (id in todoList) {
     return res.status(200).json(todoList[id]);
@@ -119,12 +83,6 @@ export async function getTodoById(req: Request, res: Response) {
 }
 
 export async function createRandomTodo(_req: Request, res: Response) {
-  res.set('Access-Control-Allow-Origin', '*');
-  res.set('Access-Control-Allow-Methods', 'OPTIONS, GET, POST, DELETE');
-  res.set('Access-Control-Allow-Credentials', 'true');
-  res.set('Access-Control-Allow-Headers', '*');
-  res.set('Access-Control-Max-Age', '3600');
-  
   const abortController = new AbortController();
   setTimeout(() => abortController.abort(), 5000);
 

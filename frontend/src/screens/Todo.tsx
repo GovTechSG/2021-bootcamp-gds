@@ -30,13 +30,14 @@ function TodoItem(props: TodoItemProps) {
   }, [props.description, props.id, done]);
 
   useEffect(() => {
+    /* mark the todo when done (as a dependency) changes */
     console.log(props.description, 'is marked as ', done ? 'done' : 'undone');
     updateTodoItem();
   }, [props.description, done, updateTodoItem]);
 
   return (<>
     <tr>
-      <td><input type="checkbox" checked={done} onChange={(event) => setDone(event.currentTarget.checked)}></input></td>
+      <td>{<input type="checkbox" checked={done} onChange={(event) => setDone(event.currentTarget.checked)}></input>}</td>
       <td width={'100%'}>{props.description}</td>
     </tr>
   </>
@@ -51,12 +52,12 @@ function Todo(props: TodoProps) {
   const [todoItems, setTodoItems] = useState<{ [id: string]: TodoItemProps }>({});
   const [newTodoDescription, setNewTodoDescription] = useState('');
 
+  const [isRefresh, setIsRefresh] = useState(false);
   const populateTodos = useCallback(async () => {
     const result = await axios.get(`${CONFIG.API_ENDPOINT}/todos`);
     setTodoItems(result.data);
   }, []);
 
-  const [isRefresh, setIsRefresh] = useState(false);
   const onRefreshClicked = useCallback(async () => {
     setIsRefresh(true);
     setTimeout(async () => {
@@ -69,13 +70,18 @@ function Todo(props: TodoProps) {
     onRefreshClicked();
   }, [onRefreshClicked]);
 
-  async function submitNewTodo() {
-    const newTodo = {
-      description: newTodoDescription,
-    };
-    await axios.post(`/api/todos`, newTodo);
-    await populateTodos();
-    setNewTodoDescription('');
+ async function submitNewTodo() {
+    // Add a check here
+    if (newTodoDescription.trim() !== '') {
+      const newTodo = {
+        description: newTodoDescription,
+      };
+      await axios.post(`${CONFIG.API_ENDPOINT}/todos`, newTodo);
+      await populateTodos();
+      setNewTodoDescription('');
+    } else {
+      alert('Invalid Todo input!');
+    }
   }
 
   return (
