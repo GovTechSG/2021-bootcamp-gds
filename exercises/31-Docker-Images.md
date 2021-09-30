@@ -180,7 +180,7 @@ Modify the `docker-compose.yml` file to use the images pushed to GHCR.
 
 1. Navigate to the `docker-compose.yml` file.
 2. Remove the `volumes:` keyword for both frontend and backend.
-3. Replace `build:` with `images:` and specify the image + tag stored in GHCR for both frontend and backend.
+3. Replace `build:` with `image:` and specify the image + tag stored in GHCR for both frontend and backend.
 4. Run `docker-compose up --build` and verify that the application is working locally as before.
 
 ### Stopping The Application
