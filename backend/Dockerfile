@@ -1,4 +1,4 @@
-FROM node:14
+FROM node:14-alpine
 
 ARG user="node"
 ARG appdir="/home/node/app"
