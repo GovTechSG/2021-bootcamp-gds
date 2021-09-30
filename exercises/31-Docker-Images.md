@@ -172,7 +172,7 @@ We can modify the file to pull the images from GHCR that you just pushed instead
 
 These images can also be used for cloud deployments, which you will get to try in the next few exercises.
 
-#### Exercise 3
+#### Exercise 3 (Optional)
 
 Modify the `docker-compose.yml` file to use the images pushed to GHCR.
 
@@ -180,7 +180,7 @@ Modify the `docker-compose.yml` file to use the images pushed to GHCR.
 
 1. Navigate to the `docker-compose.yml` file.
 2. Remove the `volumes:` keyword for both frontend and backend.
-3. Replace `build:` with `images:` and specify the image + tag stored in GHCR for both frontend and backend.
+3. Replace `build:` with `image:` and specify the image + tag stored in GHCR for both frontend and backend.
 4. Run `docker-compose up --build` and verify that the application is working locally as before.
 
 ### Stopping The Application
