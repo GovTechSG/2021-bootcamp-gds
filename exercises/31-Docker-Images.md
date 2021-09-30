@@ -172,7 +172,7 @@ We can modify the file to pull the images from GHCR that you just pushed instead
 
 These images can also be used for cloud deployments, which you will get to try in the next few exercises.
 
-#### Exercise 3
+#### Exercise 3 (Optional)
 
 Modify the `docker-compose.yml` file to use the images pushed to GHCR.
 
